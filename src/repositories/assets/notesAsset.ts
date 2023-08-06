@@ -1,0 +1,60 @@
+import { Note } from "../../models/Note";
+
+export const noteAsset: Note[] = [
+  {
+    id: "1",
+    name: "Name note 1",
+    date: new Date(),
+    category: "Task",
+    content: "Note content 1",
+    archived: false,
+  },
+  {
+    id: "2",
+    name: "Name note 2",
+    date: new Date(),
+    category: "Random Thought",
+    content: "Note content 2",
+    archived: false,
+  },
+  {
+    id: "3",
+    name: "Name note 3",
+    date: new Date(),
+    category: "Idea",
+    content: "Note content 3",
+    archived: false,
+  },
+  {
+    id: "4",
+    name: "Name note 4",
+    date: new Date(),
+    category: "Random Thought",
+    content: "Note content 4",
+    archived: false,
+  },
+  {
+    id: "5",
+    name: "Name note 5",
+    date: new Date(),
+    category: "Random Thought",
+    content: "Note content 5",
+    archived: true,
+  },
+  {
+    id: "6",
+    name: "Name note 6",
+    date: new Date(),
+    category: "Idea",
+    content: "Note content 6",
+    archived: true,
+  },
+  {
+    id: "7",
+    name: "Name note 7",
+    date: new Date(),
+    category: "Task",
+    content: "Note content 7",
+    archived: false,
+  },
+];
