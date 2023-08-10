@@ -4,8 +4,6 @@ import { Note } from "../models/Note";
 
 const client = new Client(DB_CONFIG);
 
-console.log(DB_CONFIG);
-
 export async function connectDB() {
   try {
     await client.connect();
