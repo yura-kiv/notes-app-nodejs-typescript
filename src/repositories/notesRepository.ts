@@ -3,7 +3,7 @@ import client from "../config/dbHelper";
 import { NOTES_TABLE_NAME as table } from "../config/dbConfig";
 
 export const getAllNotes = async (): Promise<Note[]> => {
-  const query = `SELECT * FROM ${table} notes`;
+  const query = `SELECT * FROM ${table}`;
   const result = await client.query(query);
   return result.rows;
 };

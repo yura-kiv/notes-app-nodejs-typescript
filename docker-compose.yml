@@ -22,7 +22,7 @@ services:
     environment:
       POSTGRES_USER: test_user
       POSTGRES_HOST: postgres
-      POSTGRES_DATABASE: test_db
+      POSTGRES_DB: test_db
       POSTGRES_PASSWORD: test_password
       POSTGRES_PORT: 5432
     depends_on:
