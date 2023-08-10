@@ -14,3 +14,5 @@ export interface RequestNote {
   content: string;
   archived: boolean;
 }
+
+export const categories: string[] = ["Task", "Random Thought", "Idea"];

@@ -1,6 +1,5 @@
 import { Note } from "../models/Note";
-
-const categories: string[] = ["Task", "Random Thought", "Idea"];
+import { categories } from "../models/Note";
 
 interface Statistic {
   [key: string]: { [key: string]: string | number };

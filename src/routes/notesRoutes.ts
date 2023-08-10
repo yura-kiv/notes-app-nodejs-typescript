@@ -45,7 +45,7 @@ router.post("/", async (req: Request, res: Response) => {
   } catch (error) {
     if (error instanceof ValidationError) {
       res.status(400).json({ error: formError(error) });
-    } else res.status(400).json({ error: "Something went wrong..." });
+    } else res.status(400).json({ error });
   }
 });
 
@@ -59,7 +59,7 @@ router.patch("/:id", async (req: Request, res: Response) => {
   } catch (error) {
     if (error instanceof ValidationError) {
       res.status(400).json({ error: formError(error) });
-    } else res.status(400).json({ error: "Something went wrong..." });
+    } else res.status(400).json({ error });
   }
 });
 
