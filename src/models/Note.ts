@@ -16,3 +16,6 @@ export interface RequestNote {
 }
 
 export const categories: string[] = ["Task", "Random Thought", "Idea"];
+
+export interface NoteInput extends Required<RequestNote> {}
+export interface NoteOuput extends Required<Note> {}

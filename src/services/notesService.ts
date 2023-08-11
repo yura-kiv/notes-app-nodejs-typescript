@@ -1,4 +1,4 @@
-import { Note, RequestNote } from "../models/Note";
+import { Note, NoteInput, NoteOuput, RequestNote } from "../models/Note";
 import * as notesRepository from "../repositories/notesRepository";
 import { noteSchema, requestNoteSchema } from "../helpers/validateNoteSchema";
 
@@ -10,11 +10,11 @@ export const getNoteById = (id: string): Promise<Note | undefined> => {
   return notesRepository.getNoteById(id);
 };
 
-export const toggleNote = async (id: string): Promise<Note | undefined> => {
+export const toggleNote = async (id: string): Promise<NoteOuput | undefined> => {
   return notesRepository.toggleNote(id);
 };
 
-export const createNote = async (newNote: RequestNote): Promise<void> => {
+export const createNote = async (newNote: NoteInput): Promise<void> => {
   await requestNoteSchema.validate(newNote, { abortEarly: false });
   await notesRepository.createNote(newNote);
 };

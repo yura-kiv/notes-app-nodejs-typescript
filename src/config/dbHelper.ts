@@ -1,48 +1,34 @@
-import { Client } from "pg";
+import { Sequelize } from "sequelize";
 import { DB_CONFIG } from "./dbConfig";
+import NoteSQ from "../models/NoteSQ";
 import { Note } from "../models/Note";
 
-const client = new Client(DB_CONFIG);
+const sequelize = new Sequelize({
+  dialect: "postgres",
+  host: DB_CONFIG.host,
+  port: DB_CONFIG.port,
+  database: DB_CONFIG.database,
+  username: DB_CONFIG.user,
+  password: DB_CONFIG.password,
+});
 
-export async function connectDB() {
+const testDbConnection = async () => {
   try {
-    await client.connect();
-    console.log("Connected to the database");
+    await sequelize.authenticate();
+    console.log("Connection has been established successfully.");
   } catch (error) {
-    console.error("Error connecting to the database", error);
+    console.error("Unable to connect to the database:", error);
+  }
+};
+
+export async function insertInitialData(initialData: Note[]) {
+  try {
+    await NoteSQ.sync({ force: true });
+    await NoteSQ.bulkCreate(initialData);
+    console.log("Initial data seeded successfully.");
+  } catch (error) {
+    console.error("Error seeding initial data:", error);
   }
 }
 
-export async function createTable(tableName: string) {
-  const createTableQuery = `
-    CREATE TABLE IF NOT EXISTS ${tableName} (
-      id VARCHAR(36) DEFAULT CAST (gen_random_uuid() AS VARCHAR(36)) PRIMARY KEY,
-      name VARCHAR(255),
-      date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      category VARCHAR(255),
-      content TEXT,
-      archived BOOLEAN
-    );
-  `;
-  await client.query(createTableQuery);
-  console.log(`Sucsess. Table ${tableName} created...`);
-}
-
-export async function clearTable(tableName: string) {
-  const clearTableQuery = `DROP TABLE IF EXISTS ${tableName}`;
-  await client.query(clearTableQuery);
-  console.log(`Sucsess. Table ${tableName} cleared`);
-}
-
-export async function fillInitialTable(tableName: string, noteList: Note[]) {
-  const insertQuery = `INSERT INTO ${tableName} (id, name, date, category, content, archived) VALUES ($1, $2, $3, $4, $5, $6)`;
-
-  for (const note of noteList) {
-    const values = [note.id, note.name, note.date, note.category, note.content, note.archived];
-    await client.query(insertQuery, values);
-  }
-
-  console.log(`Sucsess. Table ${tableName} have initial data...`);
-}
-
-export default client;
+export { sequelize, testDbConnection };
