@@ -19,6 +19,7 @@
 <h3>npm run build</h3>
 
 ## Data example:
+<code>
 [
     {
         "id": "1",
@@ -45,3 +46,4 @@
         "archived": false
     },
 ]
+</code>
