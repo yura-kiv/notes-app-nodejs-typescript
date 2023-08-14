@@ -1,44 +1,54 @@
 import { Note, RequestNote } from "../models/Note";
-import client from "../config/dbHelper";
-import { NOTES_TABLE_NAME as table } from "../config/dbConfig";
+import { noteAsset } from "./assets/notesAsset";
+
+let notes: Note[] = noteAsset;
+const delay = 100;
 
 export const getAllNotes = async (): Promise<Note[]> => {
-  const query = `SELECT * FROM ${table}`;
-  const result = await client.query(query);
-  return result.rows;
+  await getDelay(delay);
+  return notes;
 };
 
 export const getNoteById = async (id: string): Promise<Note | undefined> => {
-  const query = `SELECT * FROM ${table} WHERE id = $1`;
-  const result = await client.query(query, [id]);
-  return result.rows[0];
+  await getDelay(delay);
+  return notes.find((note) => note.id === id);
 };
 
+// When creating a note, the id will be generated here
+// There is also a possibility that the "archived" property may
+// not be available and we will set it as true by default
 export const createNote = async (newNote: RequestNote): Promise<void> => {
-  const insertQuery = `INSERT INTO ${table} (name, category, content, archived) VALUES ($1, $2, $3, $4)`;
-  const values = [newNote.name, newNote.category, newNote.content, newNote.archived || true];
-  await client.query(insertQuery, values);
+  await getDelay(delay);
+  const id = Math.random().toString(36).substr(2, 10);
+  const date = new Date();
+  // const archived = newNote?.archived ? newNote.archived : true;
+  const note: Note = { ...newNote, id, date };
+  notes.push(note);
 };
 
 export const toggleNote = async (id: string): Promise<Note | undefined> => {
-  const updateQuery = `UPDATE ${table} SET archived = NOT archived WHERE id = $1 RETURNING *`;
-  const result = await client.query(updateQuery, [id]);
-  return result.rows[0];
+  await getDelay(delay);
+  const note = notes.find((note) => note.id === id);
+  if (note) {
+    note.archived = !note.archived;
+    return note;
+  }
 };
 
 export const updateNote = async (updatedNote: Note): Promise<void> => {
-  const updateQuery = `UPDATE ${table} SET name = $2, category = $3, content = $4, archived = $5 WHERE id = $1`;
-  const values = [
-    updatedNote.id,
-    updatedNote.name,
-    updatedNote.category,
-    updatedNote.content,
-    updatedNote.archived,
-  ];
-  await client.query(updateQuery, values);
+  // Emulate async operation with a 500ms delay
+  await getDelay(delay);
+  const index = notes.findIndex((note) => note.id === updatedNote.id);
+  if (index !== -1) {
+    notes[index] = { ...notes[index], ...updatedNote, date: new Date() };
+  }
 };
 
 export const deleteNote = async (id: string): Promise<void> => {
-  const deleteQuery = `DELETE FROM ${table} WHERE id = $1`;
-  await client.query(deleteQuery, [id]);
+  await getDelay(delay);
+  notes = notes.filter((note) => note.id !== id);
 };
+
+function getDelay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

@@ -1,7 +1,0 @@
-FROM postgres:latest
-
-ENV POSTGRES_USER test_user
-ENV POSTGRES_DB test_db
-ENV POSTGRES_PASSWORD test_password
-
-EXPOSE 5432
